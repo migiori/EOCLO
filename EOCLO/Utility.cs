@@ -10,98 +10,107 @@ namespace EOCLO
     public static class Utility
     {
         /// <summary>
-        /// コントロールのスタイルの設定
+        /// コントロールのプロパティの設定
         /// </summary>
         /// <param name="form"> Formクラス</param>
         /// <param name="labels"> Labelを入れた配列 </param>
-        /// <param name="closeButton"> 「閉じる」ボタン </param>
-        /// <param name="convertButton">  時間変換ウィンドウを「開く」ボタン </param>
+        /// <param name="closeButton"> 「×」ボタン </param>
+        /// <param name="convertButton">  「開く」または「変換」ボタン </param>
         /// <param name="dataGridView"> DataGridView </param>
-        public static void SetFormsStyle(Form form, Label[] labels, Button closeButton, Button convertButton, DataGridView dataGridView)
+        public static void SetControlProperty(Form form, Label[] labels, Button closeButton, Button convertButton, DataGridView dataGridView)
         {
             // 各コントロールの色の設定
             form.BackColor = Color.FromArgb(60, 60, 60);
-            Color textColor = Color.FromArgb(200, 200, 200);
-            for (int i = 0;i<labels.Length; i++)
+            Color textColor = Constants.TextColor;
+            for (int i = 0; i < labels.Length; i++)
             {
                 labels[i].ForeColor = textColor;
             }
-            closeButton.ForeColor = Color.FromArgb(240, 240, 240);
-            convertButton.BackColor = Color.FromArgb(100, 100, 100);
-            convertButton.ForeColor = Color.FromArgb(240, 240, 240);
+            closeButton.ForeColor = Constants.ButtonForeColor;
+            convertButton.BackColor = Constants.ButtonBackColor;
+            convertButton.ForeColor = Constants.ButtonForeColor;
 
-            // DataGridViewのスタイルを変更
+            // dataGridViewのスタイルを変更
             dataGridView.EnableHeadersVisualStyles = false;
             dataGridView.ColumnHeadersDefaultCellStyle.ForeColor = Color.FromArgb(220, 220, 220);
             dataGridView.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(80, 80, 80);
             dataGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridView.Columns[1].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView.Columns[2].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView.Columns[1].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            dataGridView.Columns[2].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            DataGridViewContentAlignment alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridView.Columns[1].HeaderCell.Style.Alignment = alignment;
+            dataGridView.Columns[2].HeaderCell.Style.Alignment = alignment;
+            dataGridView.Columns[1].DefaultCellStyle.Alignment = alignment;
+            dataGridView.Columns[2].DefaultCellStyle.Alignment = alignment;
             dataGridView.DefaultCellStyle.BackColor = Color.FromArgb(40, 40, 40);
-            dataGridView.ForeColor = textColor;
+            dataGridView.ForeColor = Color.FromArgb(200, 200, 200);
+            // dataGridView.Heightの初期値は25
+            dataGridView.Height += 21 * Constants.RowCount;
             // 画像未設定時に×画像が表示されないようにする
             dataGridView.Columns[0].DefaultCellStyle.NullValue = null;
         }
 
         /// <summary>
-        /// Formの境界線の初期設定
+        /// formの境界線の初期設定
         /// </summary>
         /// <param name="form"> Formクラス </param>
-        /// <param name="borderLines"> 境界線(Label)の配列 </param>
+        /// <param name="borderLines"> 境界線の配列 </param>
         public static void SetBorderLines(Form form, Label[] borderLines)
         {
-            borderLines[0].Size = new Size(form.Size.Width, 1);
-            borderLines[1].Size = new Size(form.Size.Width, 1);
-            borderLines[2].Size = new Size(1, form.Size.Height);
-            borderLines[3].Size = new Size(1, form.Size.Height);
-            borderLines[0].Location = new Point(0, 0);
+            Size width = new Size(form.Width, 1);
+            Size height = new Size(1, form.Height);
+            borderLines[0].Size = width;
+            borderLines[1].Size = width;
+            borderLines[2].Size = height;
+            borderLines[3].Size = height;
+            //Point origin = new Point(0, 0);
+            //borderLines[0].Location = origin;
             borderLines[1].Location = new Point(0, form.Height - 1);
-            borderLines[2].Location = new Point(0, 0);
+            //borderLines[2].Location = origin;
             borderLines[3].Location = new Point(form.Width - 1, 0);
         }
 
         /// <summary>
-        /// Formの境界線の色の切替
+        /// formがアクティブのときの境界線の色
         /// </summary>
         /// <param name="form"> Formクラス </param>
-        /// <param name="borderLines"> 境界線(Label)の配列 </param>
-        public static void SwitchBorderLine(Form form, Label[] borderLines)
+        /// <param name="borderLines"> 境界線の配列 </param>
+        public static void ActiveBorderLine(Form form, Label[] borderLines)
         {
-            if (Form.ActiveForm == form)
+            for (int i = 0; i < borderLines.Length; i++)
             {
-                for (int i = 0; i < borderLines.Length; i++)
-                {
-                    borderLines[i].BackColor = SystemColors.ActiveCaption;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < borderLines.Length; i++)
-                {
-                    borderLines[i].BackColor = Color.Black;
-                }
+                borderLines[i].BackColor = SystemColors.ActiveCaption;
             }
         }
 
         /// <summary>
-        /// 指定日時と基準日時の差を元にエオルゼア時間を計算
+        /// formが非アクティブのときの境界線の色
+        /// </summary>
+        /// <param name="form"> Formクラス </param>
+        /// <param name="borderLines"> 境界線の配列 </param>
+        public static void DeactiveBorderLine(Form form, Label[] borderLines)
+        {
+            for (int i = 0; i < borderLines.Length; i++)
+            {
+                borderLines[i].BackColor = Color.Black;
+            }
+        }
+
+        /// <summary>
+        /// 指定日時と基準日時の差からエオルゼア時間を計算
         /// </summary>
         /// <param name="differenceTime"> 指定日時と基準日時の差 </param>
-        /// <returns> エオルゼアで1日が何分経過したか </returns>
+        /// <returns> エオルゼアの1日が何分経過したか </returns>
         public static int GetEorzeaTime(TimeSpan differenceTime)
         {
             // エオルゼア時間の1日が地球時間で何秒経過しているか
-            double eorzeaDayTime = differenceTime.TotalSeconds % (Constants.EorzeaDayMin * 60);
+            double eorzeaDayTime = differenceTime.TotalSeconds % (Constants.EorzeaDay * 60);
             // 地球時間のeorzeaDayTime秒がエオルゼア時間で何秒か
-            int eorzeaTimeSec = (int)((eorzeaDayTime * 1440) / Constants.EorzeaDayMin);
+            int eorzeaTimeSec = (int)((eorzeaDayTime * 1440) / Constants.EorzeaDay);
             // エオルゼアの1日が何分経過したか
             return eorzeaTimeSec / 60;
         }
 
         /// <summary>
-        /// エオルゼア時間で何時か
+        /// エオルゼアの1日の経過時間からエオルゼア時間で何時になるか計算
         /// </summary>
         /// <param name="minute"> エオルゼアの1日が何分経過したか </param>
         /// <returns> エオルゼア時間で何時か </returns>
@@ -111,7 +120,7 @@ namespace EOCLO
         }
 
         /// <summary>
-        /// エオルゼア時間で何分か
+        /// エオルゼアの1日の経過時間からエオルゼア時間で何分になるか計算
         /// </summary>
         /// <param name="minute"> エオルゼアの1日が何分経過したか </param>
         /// <returns> エオルゼア時間で何分か </returns>
@@ -121,21 +130,19 @@ namespace EOCLO
         }
 
         /// <summary>
-        /// 指定日時と基準日時の差からエオルゼアの月齢を要素番号で取得
+        /// 指定日時と基準日時の差からConstants.MoonAgeNamesの要素番号を取得
         /// </summary>
         /// <param name="differenceTime"> 指定日時と基準日時の差 </param>
-        /// <returns> 月齢配列の要素番号 </returns>
+        /// <returns> Constants.MoonAgeNamesの要素番号 </returns>
         public static int GetMoonAgeIndex(TimeSpan differenceTime)
         {
             int result = 0;
-
-            // 基準日に丁度新月で始めるために月齢変化のタイミングを半周分早める
-            double adjustTime = differenceTime.TotalMinutes + (Constants.SwitchMoon / 2);
-            // 今の月齢を求める
-            for (int i = 0; i < Constants.moonAgeNames.Length; i++)
+            // 月齢が変化する日時を月の出の時間に合わせるために半日分早める
+            double adjustTime = differenceTime.TotalMinutes + (Constants.EorzeaDay / 2);
+            for (int i = 0; i < Constants.MoonAgeNames.Length; i++)
             {
-                // adjustTimeを月齢周期で割った余りから月齢を求める
-                if (adjustTime % Constants.CycleMoon < Constants.SwitchMoon * (i + 1))
+                // adjustTimeを月齢周期で割った余りからConstants.MoonAgeNamesの要素番号を求める
+                if (adjustTime % Constants.MoonCycle < Constants.EorzeaDay * (i + 1))
                 {
                     result = i;
                     break;
@@ -145,87 +152,105 @@ namespace EOCLO
         }
 
         /// <summary>
-        /// DataGridViewに追加する月齢の設定
+        /// Constants.MoonAgeNamesの要素番号からConstants.MoonImagesの要素番号を取得
+        /// </summary>
+        /// <param name="moonAgeIndex"> Constants.MoonAgeNamesの要素番号 </param>
+        /// <returns> Constants.MoonImagesの要素番号 </returns>
+        public static int GetMoonImagesIndex(int moonAgeIndex)
+        {
+            int result = 0;
+            for (int i = 0; i < Constants.MoonImages.Length; i += 2)
+            {
+                // 0か8の倍数(新月・上弦・満月・下弦)のとき
+                if (moonAgeIndex == i * 4)
+                {
+                    result = i;
+                    break;
+                }
+                // 8の倍数未満(それ以外)のとき
+                else if (moonAgeIndex < 4 * (i + 2))
+                {
+                    result = i + 1;
+                    break;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 指定日時と基準日時の差から月齢が変化した日時を取得
+        /// </summary>
+        /// <param name="differenceTime"> 指定日時と基準日時の差 </param>
+        /// <returns> 指定日時の月齢に変化した日時 </returns>
+        public static DateTime GetMoonAgeChangeTime(TimeSpan differenceTime)
+        {
+            // 基準日時から指定日時までに何回月齢が変化したか・月齢が変化する日時を月の出の時間に合わせるために半日分早める
+            int moonAgeCount = (int)((differenceTime.TotalMinutes + (Constants.EorzeaDay / 2)) / Constants.EorzeaDay);
+            // 指定日時の月齢に変化した日時・上で早めた時間を戻す
+            return Constants.BaseTime.AddMinutes((moonAgeCount * Constants.EorzeaDay) - (Constants.EorzeaDay / 2));
+        }
+
+        /// <summary>
+        /// dataGridViewに月齢とその月齢に変化した(する)日時を追加
         /// </summary>
         /// <param name="dataGridView"> DataGridView </param>
-        /// <param name="imageColumn"> DataGridViewImageColumn </param>
-        /// <param name="moonIndex"> 月齢配列の要素番号 </param>
-        public static void SetMoonAgeColumns(DataGridView dataGridView, DataGridViewImageColumn imageColumn, int moonIndex)
+        /// <param name="moonAgeIndex"> Constants.MoonAgeNamesの要素番号 </param>
+        /// <param name="moonAgeChangeTime"> 指定日時の月齢に変化した日時 </param>
+        public static void SetMoonAgeAndTime(DataGridView dataGridView, int moonAgeIndex, DateTime moonAgeChangeTime)
         {
-            // Icon型ではなくImage型のデータを表示する
-            // デフォルトでfalse
-            //imageColumn.ValuesAreIcons = false;
-
-            // 要素数8の配列moonAgeNamesから、[moonIndex]を中心に9個の要素を取り出してDataGridViewに追加する
-            int number = 0;
-            if (moonIndex < 4)
+            // 要素数32の配列Constants.MoonAgeNamesから、[moonAgeIndex]を中心にConstants.RowCount個の要素を取り出してdataGridViewに追加する
+            int halfRowCount = Constants.RowCount / 2;
+            int start = moonAgeIndex - halfRowCount;
+            int end = moonAgeIndex + halfRowCount;
+            if (moonAgeIndex < halfRowCount)
             {
-                number = moonIndex + 4;
+                start += Constants.MoonAgeNames.Length;
+                AlignMoonAge(dataGridView, start, end);
+            }
+            else if (moonAgeIndex > Constants.MoonAgeNames.Length - (halfRowCount + 1))
+            {
+                end -= Constants.MoonAgeNames.Length;
+                AlignMoonAge(dataGridView, start, end);
             }
             else
             {
-                number = moonIndex - 4;
-            }
-            for (int i = number; i < Constants.moonAgeNames.Length; i++)
-            {
-                SetMoonAgeRows(dataGridView, imageColumn, i);
-            }
-            for (int i = 0; i <= number; i++)
-            {
-                SetMoonAgeRows(dataGridView, imageColumn, i);
+                for (int i = start; i <= end; i++)
+                {
+                    dataGridView.Rows.Add(Constants.MoonImages[GetMoonImagesIndex(i)], Constants.MoonAgeNames[i]);
+                }
             }
 
-            // 指定した時間の行の色を変える
-            Color backColor = Color.FromArgb(80, 100, 160);
-            Color foreColor = Color.FromArgb(220, 220, 220);
-            for(int i =0; i < dataGridView.Columns.Count; i++)
+            // dataGridViewに月齢が変化した(する)日時を追加
+            for (int i = -halfRowCount; i <= halfRowCount; i++)
             {
-                dataGridView[i, 4].Style.BackColor = backColor;
-                dataGridView[i, 4].Style.ForeColor = foreColor;
+                dataGridView.Rows[i + halfRowCount].Cells[dataGridView.Columns.Count - 1].Value
+                    = moonAgeChangeTime.AddMinutes(Constants.EorzeaDay * i).ToLocalTime().ToString("yyyy/MM/dd HH:mm") + " ～";
             }
 
+            // 指定日時の行の色を変える
+            for (int i = 0; i < dataGridView.Columns.Count; i++)
+            {
+                dataGridView[i, halfRowCount].Style.BackColor = Color.FromArgb(80, 100, 160);
+                dataGridView[i, halfRowCount].Style.ForeColor = Color.FromArgb(220, 220, 220);
+            }
             dataGridView.ClearSelection();
         }
 
         /// <summary>
-        /// DataGridViewに月齢を追加
+        /// 月齢をdataGridViewに追加するために整列
         /// </summary>
         /// <param name="dataGridView"> DataGridView </param>
-        /// <param name="imageColumn"> DataGridViewImageColumn </param>
-        /// <param name="moonIndex"> 月齢配列の要素番号 </param>
-        private static void SetMoonAgeRows(DataGridView dataGridView, DataGridViewImageColumn imageColumn, int moonIndex)
+        /// <param name="start"> 最初に列に追加するConstants.MoonAgeNamesの要素番号 </param>
+        /// <param name="end"> 最後に列に追加するConstants.MoonAgeNamesの要素番号 </param>
+        private static void AlignMoonAge(DataGridView dataGridView, int start, int end)
         {
-            // イメージを縦横の比率を維持して拡大・縮小表示する
-            //imageColumn.ImageLayout = DataGridViewImageCellLayout.Zoom;
-
-            dataGridView.Rows.Add(Constants.moonImages[moonIndex], Constants.moonAgeNames[moonIndex]);
-        }
-
-        /// <summary>
-        /// 月齢が変化した日時を取得
-        /// </summary>
-        /// <param name="differenceTime"> 指定日時と基準日時の差 </param>
-        /// <returns> 月齢が変化した日時 </returns>
-        public static DateTime GetMoonTime(TimeSpan differenceTime)
-        {
-            // 基準日から指定日時までに何回月齢が変化したか・月齢変化のタイミングを半周分早める
-            int moonNumber = (int)((differenceTime.TotalMinutes + (Constants.SwitchMoon / 2)) / Constants.SwitchMoon);
-            // 指定日時の月齢に変化した日時・上で早めた月齢変化のタイミングを戻す
-            return Constants.BaseTime.AddMinutes((moonNumber * Constants.SwitchMoon) - (Constants.SwitchMoon / 2));
-        }
-
-        /// <summary>
-        /// 月齢に対するローカル時間の設定
-        /// </summary>
-        /// <param name="dataGridView"> DataGridView </param>
-        /// <param name="moonTime"> 月齢が変化した日時 </param>
-        public static void SetMoonAgeTime(DataGridView dataGridView, DateTime moonTime)
-        {
-            // 月齢変化の日時をmoonTimeと前後4回分求める
-            for (int i = -4; i <= 4; i++)
+            for (int i = start; i < Constants.MoonAgeNames.Length; i++)
             {
-                dataGridView.Rows[i + 4].Cells[dataGridView.Columns.Count - 1].Value
-                    = moonTime.AddMinutes(Constants.SwitchMoon * i).ToLocalTime().ToString("yyyy/MM/dd HH:mm") + " ～";
+                dataGridView.Rows.Add(Constants.MoonImages[GetMoonImagesIndex(i)], Constants.MoonAgeNames[i]);
+            }
+            for (int i = 0; i <= end; i++)
+            {
+                dataGridView.Rows.Add(Constants.MoonImages[GetMoonImagesIndex(i)], Constants.MoonAgeNames[i]);
             }
         }
     }

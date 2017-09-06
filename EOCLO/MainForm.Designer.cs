@@ -85,9 +85,9 @@
             this.ltDisplay.Font = new System.Drawing.Font("Open Sans", 14F, System.Drawing.FontStyle.Bold);
             this.ltDisplay.Location = new System.Drawing.Point(90, 31);
             this.ltDisplay.Name = "ltDisplay";
-            this.ltDisplay.Size = new System.Drawing.Size(197, 26);
+            this.ltDisplay.Size = new System.Drawing.Size(202, 26);
             this.ltDisplay.TabIndex = 3;
-            this.ltDisplay.Text = "0000/00/00 00:00:00\r\n";
+            this.ltDisplay.Text = "0000/00/00  00:00:00\r\n";
             this.ltDisplay.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // etDisplay
@@ -104,17 +104,17 @@
             // 
             // timer
             // 
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            this.timer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
             // convertLabel
             // 
             this.convertLabel.AutoSize = true;
             this.convertLabel.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.convertLabel.Location = new System.Drawing.Point(15, 350);
+            this.convertLabel.Location = new System.Drawing.Point(25, 160);
             this.convertLabel.Name = "convertLabel";
-            this.convertLabel.Size = new System.Drawing.Size(143, 12);
+            this.convertLabel.Size = new System.Drawing.Size(181, 12);
             this.convertLabel.TabIndex = 5;
-            this.convertLabel.Text = "エオルゼア時間や月齢を検索";
+            this.convertLabel.Text = "ローカル時間やエオルゼア時間を変換";
             this.convertLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // convertButton
@@ -123,13 +123,13 @@
             this.convertButton.FlatAppearance.BorderSize = 0;
             this.convertButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.convertButton.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.convertButton.Location = new System.Drawing.Point(210, 345);
+            this.convertButton.Location = new System.Drawing.Point(220, 155);
             this.convertButton.Name = "convertButton";
             this.convertButton.Size = new System.Drawing.Size(75, 23);
             this.convertButton.TabIndex = 0;
             this.convertButton.Text = "開く";
             this.convertButton.UseVisualStyleBackColor = false;
-            this.convertButton.Click += new System.EventHandler(this.convertButton_Click);
+            this.convertButton.Click += new System.EventHandler(this.ConvertButton_Click);
             // 
             // moonAgeLabel
             // 
@@ -147,17 +147,17 @@
             this.moonAgeDisplay.Font = new System.Drawing.Font("MS UI Gothic", 8F);
             this.moonAgeDisplay.Location = new System.Drawing.Point(210, 92);
             this.moonAgeDisplay.Name = "moonAgeDisplay";
-            this.moonAgeDisplay.Size = new System.Drawing.Size(8, 11);
+            this.moonAgeDisplay.Size = new System.Drawing.Size(27, 11);
             this.moonAgeDisplay.TabIndex = 8;
-            this.moonAgeDisplay.Text = " ";
+            this.moonAgeDisplay.Text = "－－";
             this.moonAgeDisplay.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // border
             // 
             this.border.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.border.Location = new System.Drawing.Point(25, 335);
+            this.border.Location = new System.Drawing.Point(25, 145);
             this.border.Name = "border";
-            this.border.Size = new System.Drawing.Size(250, 1);
+            this.border.Size = new System.Drawing.Size(270, 1);
             this.border.TabIndex = 9;
             // 
             // closeButton
@@ -167,13 +167,13 @@
             this.closeButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
             this.closeButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.IndianRed;
             this.closeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.closeButton.Location = new System.Drawing.Point(272, 0);
+            this.closeButton.Location = new System.Drawing.Point(292, 0);
             this.closeButton.Name = "closeButton";
             this.closeButton.Size = new System.Drawing.Size(28, 28);
             this.closeButton.TabIndex = 10;
             this.closeButton.Text = "×";
             this.closeButton.UseVisualStyleBackColor = false;
-            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            this.closeButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // dataGridView
             // 
@@ -196,7 +196,7 @@
             this.dataGridView.RowTemplate.ReadOnly = true;
             this.dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridView.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dataGridView.Size = new System.Drawing.Size(270, 214);
+            this.dataGridView.Size = new System.Drawing.Size(290, 25);
             this.dataGridView.TabIndex = 13;
             this.dataGridView.TabStop = false;
             // 
@@ -215,6 +215,7 @@
             this.moonAgeColumn.ReadOnly = true;
             this.moonAgeColumn.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.moonAgeColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.moonAgeColumn.Width = 120;
             // 
             // localTimeColumn
             // 
@@ -231,12 +232,12 @@
             this.titleLabel.ForeColor = System.Drawing.SystemColors.ControlText;
             this.titleLabel.Location = new System.Drawing.Point(0, 0);
             this.titleLabel.Name = "titleLabel";
-            this.titleLabel.Size = new System.Drawing.Size(272, 28);
+            this.titleLabel.Size = new System.Drawing.Size(292, 28);
             this.titleLabel.TabIndex = 11;
-            this.titleLabel.Text = "　　 　EOCLO - エオルゼアクロック";
+            this.titleLabel.Text = "　　 　EOCLO  - EORZEA CLOCK -";
             this.titleLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.titleLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.titleLabel_MouseDown);
-            this.titleLabel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.titleLabel_MouseMove);
+            this.titleLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.TitleLabel_MouseDown);
+            this.titleLabel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.TitleLabel_MouseMove);
             // 
             // iconBox
             // 
@@ -260,7 +261,6 @@
             // 
             // borderTop
             // 
-            this.borderTop.BackColor = System.Drawing.Color.Black;
             this.borderTop.Location = new System.Drawing.Point(0, 0);
             this.borderTop.Name = "borderTop";
             this.borderTop.Size = new System.Drawing.Size(100, 23);
@@ -268,7 +268,6 @@
             // 
             // borderBottom
             // 
-            this.borderBottom.BackColor = System.Drawing.Color.Black;
             this.borderBottom.Location = new System.Drawing.Point(0, 0);
             this.borderBottom.Name = "borderBottom";
             this.borderBottom.Size = new System.Drawing.Size(100, 23);
@@ -276,7 +275,6 @@
             // 
             // borderLeft
             // 
-            this.borderLeft.BackColor = System.Drawing.Color.Black;
             this.borderLeft.Location = new System.Drawing.Point(0, 0);
             this.borderLeft.Name = "borderLeft";
             this.borderLeft.Size = new System.Drawing.Size(100, 23);
@@ -284,7 +282,6 @@
             // 
             // borderRight
             // 
-            this.borderRight.BackColor = System.Drawing.Color.Black;
             this.borderRight.Location = new System.Drawing.Point(0, 0);
             this.borderRight.Name = "borderRight";
             this.borderRight.Size = new System.Drawing.Size(100, 23);
@@ -295,7 +292,7 @@
             this.timeZoneDisplay.AutoSize = true;
             this.timeZoneDisplay.BackColor = System.Drawing.Color.Transparent;
             this.timeZoneDisplay.Font = new System.Drawing.Font("Open Sans", 10F);
-            this.timeZoneDisplay.Location = new System.Drawing.Point(197, 55);
+            this.timeZoneDisplay.Location = new System.Drawing.Point(202, 55);
             this.timeZoneDisplay.Name = "timeZoneDisplay";
             this.timeZoneDisplay.Size = new System.Drawing.Size(88, 19);
             this.timeZoneDisplay.TabIndex = 19;
@@ -307,7 +304,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(300, 380);
+            this.ClientSize = new System.Drawing.Size(320, 188);
             this.Controls.Add(this.timeZoneDisplay);
             this.Controls.Add(this.borderRight);
             this.Controls.Add(this.borderLeft);
@@ -332,6 +329,8 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "EOCLO - エオルゼアクロック";
+            this.Activated += new System.EventHandler(this.MainForm_Activated);
+            this.Deactivate += new System.EventHandler(this.MainForm_Deactivate);
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconBox)).EndInit();
@@ -356,15 +355,15 @@
         private System.Windows.Forms.Label titleLabel;
         private System.Windows.Forms.PictureBox moonImageBox;
         private System.Windows.Forms.PictureBox iconBox;
-        private System.Windows.Forms.DataGridViewImageColumn moonImageColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn moonAgeColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn localTimeColumn;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Label borderTop;
         private System.Windows.Forms.Label borderBottom;
         private System.Windows.Forms.Label borderLeft;
         private System.Windows.Forms.Label borderRight;
         private System.Windows.Forms.Label timeZoneDisplay;
+        private System.Windows.Forms.DataGridViewImageColumn moonImageColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn moonAgeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn localTimeColumn;
     }
 }
 
